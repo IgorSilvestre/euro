@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
+import { redirect } from "next/navigation"
 
 export function LoginForm({
   className,
@@ -27,7 +28,7 @@ export function LoginForm({
     e.preventDefault()
     try {
       await signInWithPopup(firebaseAuth, googleAuthProvider)
-      toast("Bem vindo " + (firebaseAuth.currentUser?.displayName || ''))
+      redirect('/')
     } catch (err) {
       console.error(err)
       toast("Erro ao fazer login, tente de novo")
@@ -36,7 +37,7 @@ export function LoginForm({
   async function login() {
     try {
       await signInWithEmailAndPassword(firebaseAuth, email, password)
-      toast("Bem vindo " + (firebaseAuth.currentUser?.displayName || ''))
+      redirect('/')
     } catch (err) {
       console.error(err)
       toast("Erro ao fazer login, tente de novo")
@@ -103,9 +104,6 @@ export function LoginForm({
                 </div>
                 <Button onClick={login} type="submit" className="w-full">
                   Entrar
-                </Button>
-                <Button onClick={() => console.log(firebaseAuth.currentUser)} type="submit" className="w-full">
-                teste
                 </Button>
               </div>
               <div className="text-center text-sm">
