@@ -11,3 +11,4 @@ if (!firebaseAdmin.apps.length) {
 }
 
 export default firebaseAdmin;
+export const firestore = firebaseAdmin.firestore();
