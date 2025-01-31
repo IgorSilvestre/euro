@@ -1,25 +1,17 @@
-import { ReactElement } from "react";
-import { SkeletonCard } from "./ui/skeletonCard";
+import { getProducts } from "@/lib/functions/getProducts";
+import ProductCard from "./ProductCard";
 
 
-export function ProductsShowcase() {
-  const skeleton: ReactElement[] = []
-
-  function generateSkeleton() {
-  const numberOfSkeletons = 20
-    for (let i = 0; i < numberOfSkeletons; i++) {
-      skeleton.push(
-        <div key={i} className="mx-2 mb-4">
-          <SkeletonCard /> 
-        </div>
-      )
-    }
-  }
-  generateSkeleton()
+export async function ProductsShowcase() {
+  const { products } = await getProducts()
 
   return (
     <div className="p-4 flex flex-wrap">
-      {skeleton}
+      {products?.map(product => (
+        <div key={product.id} className="flex items-center justify-center min-h-screen bg-background">
+          <ProductCard {...product} />
+        </div>
+      ))}
     </div>
   )
 }
