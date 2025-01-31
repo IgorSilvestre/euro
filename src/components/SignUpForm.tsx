@@ -15,6 +15,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
+import { apiEndpoints } from "@/lib/shared/apiEndpoints"
+
+async function handleAssignRole(uid: string | undefined) {
+    fetch(apiEndpoints.v1.user.assignRole + uid, { method: 'POST' })
+}
 
 export function SignUpForm({
   className,
@@ -27,6 +32,7 @@ export function SignUpForm({
     e.preventDefault()
     try {
       await signInWithPopup(firebaseAuth, googleAuthProvider)
+      await handleAssignRole(firebaseAuth.currentUser?.uid)
       toast("Bem vindo " + (firebaseAuth.currentUser?.displayName || ''))
     } catch (err) {
       console.error(err)
@@ -36,6 +42,7 @@ export function SignUpForm({
   async function signUp() {
     try {
       await createUserWithEmailAndPassword(firebaseAuth, email, password)
+      await handleAssignRole(firebaseAuth.currentUser?.uid)
       toast("Bem vindo " + (firebaseAuth.currentUser?.displayName || ''))
     } catch (err) {
       console.error(err)
